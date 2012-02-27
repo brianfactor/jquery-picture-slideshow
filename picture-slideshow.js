@@ -4,8 +4,8 @@
  * Prerequisite: jQuery should be loaded before any of these functions are called.
  */
 
-$(document).ready ( function() {
-		var numSlides = $('.slide').length;
+jQuery(document).ready ( function() {
+		var numSlides = jQuery('.slide').length;
 		var slideNum = 0;
 		// Every 1300ms, call a new slide to fade in and out.
 		window.setInterval( function() { 
@@ -16,6 +16,6 @@ $(document).ready ( function() {
 
 function fadeInOutSlide(slideNum) {
 	// Fade in image for 400 ms, hold for 1.2 sec, and then fade out at same speed.
-	$('.img-slider .slide-' + slideNum ).fadeIn(400).delay(1200).fadeOut(400);
+	jQuery('.img-slider .slide-' + slideNum ).fadeIn(400).delay(1200).fadeOut(400);
 	// This should allow for multiple 
 }

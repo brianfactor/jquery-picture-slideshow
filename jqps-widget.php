@@ -13,9 +13,7 @@ class jqps_widget extends WP_Widget {
 
 	/* Object variables */
 	
-	//public $current_plugin_dir = dirname(__FILE__);	// Equal to __DIR__ in PHP 5.3
 	public $default_options = array(
-			'author'	=> 0,	// Start with no user.
 			'title'		=> ''
 	);
 	
@@ -29,24 +27,33 @@ class jqps_widget extends WP_Widget {
 		parent::WP_Widget(
 		/* Base ID */	'jqps-widget',
 		/* Name */		'jQuery Picture Slider',
-					array( 'description' => 'Displays an image slideshow using just javascript.' )
+						array( 'description' => 'Displays an image slideshow using just javascript.' )
 		);
 	}
 	
 	/* Render this widget in the sidebar */
 	
 	function widget( $args, $instance ) {
-		extract($args); 
+		extract($args);
+		$jqps_slidelist = get_option('jqps_slidelist');
+		$jqps_dimensions = get_option('jqps_img_dimensions');
 		
-		$jqps_title = $this->get_title($instance['title'], $author_id);
-		
-		$title = apply_filters( 'widget_title', $jqps_title );
+		// Output Title
+		$title = apply_filters( 'widget_title', $instance['title'] );
 		echo $before_widget;
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }
+		if ( !empty($title) ) { echo $before_title . $title . $after_title; }
 		
 		// Output actual slideshow here
+		$counter = 0; ?>
+	
+		<div class="img-slider">
+		<?php foreach ($jqps_slidelist as $image) : $counter++; ?>
+			<img class="slide slide-<?php echo $counter; ?>" src="<?php echo $image; ?>"
+			 width="<?php echo $jqps_dimensions['width']; ?>" height="<?php echo $jqps_dimensions['height']; ?>" />
+		<?php endforeach; ?>
+		</div>
 		
-		echo $after_widget;
+		<?php echo $after_widget;
 	}
 
 	/* Output user options */
@@ -54,16 +61,14 @@ class jqps_widget extends WP_Widget {
 	function form( $instance ) {
 		
 		// Update the form variables if there are values stored for this instance.
-		if ( $instance ) {
-			$title = $this->get_title($instance['title'], $author_id);
-		}
-		else {
-			$title = $this->default_options['title'];
-		}
+		// (but there really aren't in this case)
+		$title = $instance['title'];
 		
-		// ** Output input fields - the containing form has already been created. **
+		// ** Output input fields - the containing form has already been created. ** ?>
+		<p>To customize the look and contents of this widget, go to <a href="<?php echo admin_url('themes.php?page=slideshow-settings'); ?>">Slideshow Settings</a>.</p>
+		<p>Slideshow title: <input type="text" name="title" value="<?php echo $title; ?>" /> </p>
 		
-	}
+	<?php }
 	
 	/* Sanitize and store form input */
 	
@@ -81,8 +86,8 @@ class jqps_widget extends WP_Widget {
 }
 
 /* Register this widget and it's control options */
-add_action( 'widgets_init', 'simpleAMW_init' );
-function simpleAMW_init() {
-	register_widget('simpleAM_widget');
+add_action( 'widgets_init', 'jqps_widget_init' );
+function jqps_widget_init() {
+	register_widget('jqps_widget');
 }
 

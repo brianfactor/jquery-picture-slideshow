@@ -13,19 +13,27 @@ Author URI: http://brianfactor.wordpress.com
  * @version 0.1
  */
 
-/* Output function */
- 
-function output_slider_images($img_array) {
-	$counter = 0; ?>
+/* Random setup */
 
-	<div class="img-slider">
-	<?php foreach ($img_array as $image) : $counter++; ?>
-		<img class="slide slide-<?php echo $counter; ?>" src="<?php echo $image; ?>" />
-	<?php endforeach; ?>
-	</div>
+function jqsp_support() {
+	add_theme_support( 'post-thumbnails' );
+}
+add_action('after_setup_theme','jqsp_support');
 
-<?php }
-
+	// Enqueue scripts and styles
+	function enqueue_slideshow_scripts() {
+		$jqps_dimensions = get_option('jqps_img_dimensions');
+		wp_register_script( 'jqps_slideshow_js', plugins_url('picture-slideshow.js', __FILE__), array('jquery') );
+		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'jqps_slideshow_js' );
+		$style_url = plugin_dir_url(__FILE__) . 'picture-slideshow.css.php' . '?width=' . $jqps_dimensions['width'] . '&height=' . $jqps_dimensions['height'];
+		/*wp_register_style( 'jqps_slideshow_style', $style_file );
+		wp_enqueue_style( 'jqps_slideshow_style' ); -- These guys are encoding the urls so that I can't be the get variables I want */
+		echo '<link rel="stylesheet" id="jqps_slideshow_style-css" href="' . $style_url . '" type="text/css" media="all"" />';
+		
+	}
+	add_action('wp_enqueue_scripts', 'enqueue_slideshow_scripts');
+	
 /* Admin Interface */
 include ("jqps-admin.php");
 
