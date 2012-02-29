@@ -2,6 +2,9 @@
 /*
  * Stylesheet for jQuery Picture Slideshow plugin
  * By Brian Morgan
+ * Implments dynamic sizing. For example, loading this file with server arguments like:
+ * picture-slideshow.css.php?width=100px&height=100px
+ * will set the size of .img-slider to 100x100px
  */
 
 .img-slider {

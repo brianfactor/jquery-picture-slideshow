@@ -11,6 +11,11 @@ Author URI: http://brianfactor.wordpress.com
  * @package HopefulTheme
  * @subpackage jQuery Picture Slideshow
  * @version 0.1
+ * 
+ * @TODO
+ * * Add links to images
+ * * Pause on hover ability
+ * * Allow timing changes
  */
 
 /* Random setup */

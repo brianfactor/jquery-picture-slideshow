@@ -182,7 +182,8 @@ function jqps_settings_page () {
 	
 <?php } // End settings page
 
-/* I'll trust the magic php scope gods on this and hope I can still use this fcn. - this function is in the theme, so that could create problems.
+
+if ( !function_exists('_img_url_sanitizer') ) { 	// To avoid conflicts with the HopefulTheme
 function _img_url_sanitizer( $logo_url ) {
 	if ( empty($logo_url) ) {
 		return '';
@@ -205,4 +206,5 @@ function _img_url_sanitizer( $logo_url ) {
 		return $default_hopeful_settings['logo_url'];
 	}
 }
-*/
+}
+
